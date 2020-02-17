@@ -1,5 +1,2 @@
 Flask>=1.0.0
-Werkzeug==0.15.3
 fastai>=1.0
-torch
-torchvision
