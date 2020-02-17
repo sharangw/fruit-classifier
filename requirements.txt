@@ -1,0 +1,5 @@
+Flask>=1.0.0
+Werkzeug==0.12.2
+fastai>=1.0
+torch
+torchvision
