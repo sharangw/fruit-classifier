@@ -1,6 +1,7 @@
 import urllib.request
 from fastai.vision import *
 from flask import Blueprint, render_template, request, Flask
+import aiohttp
 
 export_file_url = 'https://www.dropbox.com/s/v5unkltx0id5k1z/export.pkl?dl=1'
 export_file_name = 'export.pkl'
@@ -12,11 +13,19 @@ def create_app():
 app = create_app()
 
 ###################
-
 classes = ['apples', 'oranges']
-# path = Path('.')
+
 path = Path(__file__).parent
-fruitsPath = Path('data')
+
+def download_file(url, dest):
+    if dest.exists(): return
+    with aiohttp.ClientSession() as session:
+         with session.get(url) as response:
+            data = await response.read()
+            with open(dest, 'wb') as f:
+                f.write(data)
+
+download_file(export_file_url, path / export_file_name)
 
 # model
 fruitLearner = load_learner(path, export_file_name)
